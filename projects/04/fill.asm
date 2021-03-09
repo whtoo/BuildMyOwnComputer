@@ -16,24 +16,26 @@
 // white
 
 // begin inf loop
-@FILL       // FILL = -1   (1111111111111111)
+@FILL       // Predefined FILL color
 M=-1
+@EMPTY      // Predefined EMPTY color
+M=0 
 
-@8192
-D=A         
+@8196   // Initialized maximum number(8K) of pixels to draw black or clear.
+D=A       
 @SIZE       //
-M=D         //
+M=D        //
 
 (LOOP)
 
 @KBD
 D=M
 
-// if key draw black
+// if key is pressed, then draw black
 @BLACK
 D;JNE
 
-@SCREEN
+@SCREEN // otherwise, check first pixel is white?
 D=M
 
 @WHITE
@@ -68,13 +70,13 @@ D;JLE
 
 @pixel
 A=M
-M=0
+M=0 // Restore M[addr(current pixel)] to 0, that is to say we clear current pixel to white
 
 @pixel
-M=M+1
+M=M-1 // Increment pixel
 
 @num
-M=M-1
+M=M-1 //
 
 @LOOP_WHITE
 0;JMP
@@ -103,12 +105,9 @@ D=M
 @LOOP
 D;JLE
 
-@FILL
-D=M
-
 @pixel
 A=M
-M=D
+M=-1
 
 @num
 M=M-1
@@ -116,5 +115,5 @@ M=M-1
 @pixel
 M=M+1
 
-@LOOP_BLACK
+@BLACK
 0;JMP
